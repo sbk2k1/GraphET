@@ -1,0 +1,292 @@
+/* =========================
+   GraffitiTab Drawing Canvas
+   ========================= */
+#graffitiCanvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  pointer-events: none !important;
+  touch-action: none !important;
+}
+
+#graffitiCanvas.drawing-enabled {
+  pointer-events: auto !important;
+}
+
+/* =========================
+   Toolbar Container
+   ========================= */
+.graffiti-toolbar {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 1000000 !important;
+  background: rgba(20, 20, 20, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 20px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(100, 100, 100, 0.3) !important;
+  transition: all 0.3s ease !important;
+  cursor: move !important;
+  user-select: none !important;
+  font-family: 'Segoe UI', system-ui, sans-serif !important;
+  width: max-content !important;
+}
+
+.graffiti-toolbar:hover {
+  background: rgba(20, 20, 20, 0.98) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7) !important;
+}
+
+.graffiti-toolbar.dragging {
+  transition: none !important;
+}
+
+/* =========================
+   Header
+   ========================= */
+.graffiti-toolbar-header {
+  color: white !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  background: linear-gradient(45deg, #8a8a8a, #c0c0c0) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* =========================
+   Toolbar Content Layout
+   ========================= */
+.graffiti-toolbar-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 20px !important;
+  width: 100% !important;
+  max-height: 80vh !important;
+}
+
+/* =========================
+   Tool Buttons (Pen/Eraser)
+   ========================= */
+.graffiti-tool-btn,
+.graffiti-color-picker,
+.graffiti-brush-preview {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.graffiti-tool-btn {
+  border: none !important;
+  background: rgba(50, 50, 50, 0.8) !important;
+  color: white !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.graffiti-tool-btn:hover {
+  background: rgba(70, 70, 70, 0.8) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.graffiti-tool-btn.active {
+  background: linear-gradient(135deg, #555, #888) !important;
+  box-shadow: 0 0 20px rgba(150, 150, 150, 0.4) !important;
+}
+
+/* Eraser special preview dot */
+.graffiti-tool-btn[data-tool="eraser"]::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================
+   Color Picker
+   ========================= */
+.graffiti-color-picker {
+  border: 2px solid rgba(100, 100, 100, 0.5) !important;
+  border-radius: 50% !important;
+  background: #333 !important;
+  transition: all 0.2s ease !important;
+}
+
+.graffiti-color-picker:hover {
+  border-color: rgba(200, 200, 200, 0.8) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* =========================
+   Brush Size
+   ========================= */
+.graffiti-size-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.graffiti-size-label {
+  color: rgba(220, 220, 220, 0.9) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.graffiti-size-slider {
+  -webkit-appearance: none !important;
+  width: 120px !important;
+  height: 6px !important;
+  border-radius: 3px !important;
+  background: rgba(100, 100, 100, 0.5) !important;
+  outline: none !important;
+  transition: background 0.2s !important;
+}
+
+.graffiti-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #888, #aaa) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 0.2s !important;
+}
+
+.graffiti-size-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2) !important;
+}
+
+/* Brush preview */
+.graffiti-brush-preview {
+  border: 2px solid rgba(100, 100, 100, 0.5) !important;
+  background: rgba(50, 50, 50, 0.8) !important;
+}
+
+.graffiti-brush-dot {
+  background: white !important;
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+}
+
+/* =========================
+   Actions
+   ========================= */
+.graffiti-actions {
+  border-top: 1px solid rgba(100, 100, 100, 0.4) !important;
+  padding-top: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  width: 100% !important;
+}
+
+.graffiti-action-btn {
+  width: 100% !important;
+  height: 44px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  background: rgba(60, 60, 60, 0.8) !important;
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+.graffiti-action-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
+}
+
+.graffiti-action-btn.danger {
+  background: rgba(120, 40, 40, 0.8) !important;
+}
+
+.graffiti-action-btn.danger:hover {
+  background: rgba(150, 50, 50, 0.9) !important;
+}
+
+.graffiti-action-btn.success {
+  background: rgba(40, 100, 40, 0.8) !important;
+}
+
+.graffiti-action-btn.success:hover {
+  background: rgba(50, 120, 50, 0.9) !important;
+}
+
+/* =========================
+   Minimize / Logo
+   ========================= */
+.graffiti-minimize-btn {
+  position: absolute !important;
+  top: -8px !important;
+  left: -8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: rgba(80, 80, 80, 0.8) !important;
+  border: none !important;
+  color: white !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.graffiti-minimize-btn:hover {
+  background: rgba(100, 100, 100, 0.9) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Minimized state: compact with logo */
+.graffiti-toolbar.minimized {
+  width: 60px !important;
+  height: 60px !important;
+  padding: 8px !important;
+  min-width: 60px !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.graffiti-toolbar.minimized .graffiti-toolbar-content,
+.graffiti-toolbar.minimized .graffiti-toolbar-header {
+  display: none !important;
+}
+
+/* =========================
+   Divider
+   ========================= */
+.graffiti-divider {
+  height: 1px !important;
+  background: rgba(100, 100, 100, 0.4) !important;
+  width: 100% !important;
+}
