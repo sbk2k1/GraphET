@@ -85,42 +85,221 @@ class GraffitiTab {
     this.historyPointer = -1;
   }
 
-  createToolbar() {
-    this.toolbar = document.createElement('div');
-    this.toolbar.className = 'graffiti-toolbar';
-    this.toolbar.innerHTML = `
-      <button class="graffiti-minimize-btn" title="Minimize">−</button>
-      <div class="graffiti-toolbar-header">🎨 GraffitiTab</div>
-      <div class="graffiti-toolbar-content">
-        <button class="graffiti-tool-btn active" data-tool="pen" title="Pen">✏️</button>
-        <button class="graffiti-tool-btn" data-tool="eraser" title="Eraser"></button>
+  // createToolbar() {
+  //   this.toolbar = document.createElement('div');
+  //   this.toolbar.className = 'graffiti-toolbar';
+  //   this.toolbar.innerHTML = `
+  //     <button class="graffiti-minimize-btn" title="Minimize">−</button>
+  //     <div class="graffiti-toolbar-header">🎨 GraffitiTab</div>
+  //     <div class="graffiti-toolbar-content">
+  //       <button class="graffiti-tool-btn active" data-tool="pen" title="Pen">✏️</button>
+  //       <button class="graffiti-tool-btn" data-tool="eraser" title="Eraser"></button>
         
-        <div class="graffiti-divider"></div>
+  //       <div class="graffiti-divider"></div>
         
-        <input type="color" class="graffiti-color-picker" value="#ffffff" title="Color">
+  //       <input type="color" class="graffiti-color-picker" value="#ffffff" title="Color">
         
-        <div class="graffiti-size-container">
-          <div class="graffiti-size-label">Size: <span class="size-value">5</span>px</div>
-          <input type="range" class="graffiti-size-slider" min="1" max="50" value="5">
-        </div>
+  //       <div class="graffiti-size-container">
+  //         <div class="graffiti-size-label">Size: <span class="size-value">5</span>px</div>
+  //         <input type="range" class="graffiti-size-slider" min="1" max="50" value="5">
+  //       </div>
         
-        <div class="graffiti-brush-preview">
-          <div class="graffiti-brush-dot" style="width: 5px; height: 5px;"></div>
-        </div>
+  //       <div class="graffiti-brush-preview">
+  //         <div class="graffiti-brush-dot" style="width: 5px; height: 5px;"></div>
+  //       </div>
         
-        <div class="graffiti-divider"></div>
+  //       <div class="graffiti-divider"></div>
         
-        <div class="graffiti-actions">
-          <button class="graffiti-action-btn" id="undoBtn" title="Undo (Ctrl+Z)">↩️ Undo</button>
-          <button class="graffiti-action-btn success" id="saveBtn">💾 Save PNG</button>
-          <button class="graffiti-action-btn danger" id="clearBtn">🗑️ Clear All</button>
-        </div>
-      </div>
-    `;
+  //       <div class="graffiti-actions">
+  //         <button class="graffiti-action-btn" id="undoBtn" title="Undo (Ctrl+Z)">↩️ Undo</button>
+  //         <button class="graffiti-action-btn success" id="saveBtn">💾 Save PNG</button>
+  //         <button class="graffiti-action-btn danger" id="clearBtn">🗑️ Clear All</button>
+  //       </div>
+  //     </div>
+  //   `;
 
-    document.body.appendChild(this.toolbar);
-    this.addToolbarListeners();
+  //   document.body.appendChild(this.toolbar);
+  //   this.addToolbarListeners();
+  // }
+
+  // Enhanced createToolbar method with premium styling
+createToolbar() {
+  this.toolbar = document.createElement('div');
+  this.toolbar.className = 'graffiti-toolbar';
+  this.toolbar.innerHTML = `
+    <button class="graffiti-minimize-btn" title="Minimize">−</button>
+    <div class="graffiti-toolbar-header">✨ GraffitiTab</div>
+    <div class="graffiti-toolbar-content">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="graffiti-tool-btn active" data-tool="pen" title="Pen Tool">✏️</button>
+        <button class="graffiti-tool-btn" data-tool="eraser" title="Eraser Tool"></button>
+      </div>
+      
+      <div class="graffiti-divider"></div>
+      
+      <input type="color" class="graffiti-color-picker" value="#ffffff" title="Choose Color">
+      
+      <div class="graffiti-size-container">
+        <div class="graffiti-size-label">Size: <span class="size-value">5</span>px</div>
+        <input type="range" class="graffiti-size-slider" min="1" max="50" value="5" title="Brush Size">
+      </div>
+      
+      <div class="graffiti-brush-preview">
+        <div class="graffiti-brush-dot" style="width: 5px; height: 5px;"></div>
+      </div>
+      
+      <div class="graffiti-divider"></div>
+      
+      <div class="graffiti-actions">
+        <button class="graffiti-action-btn" id="undoBtn" title="Undo Last Action (Ctrl+Z)">↶ Undo</button>
+        <button class="graffiti-action-btn success" id="saveBtn" title="Save as PNG">💾 Save PNG</button>
+        <button class="graffiti-action-btn danger" id="clearBtn" title="Clear All Drawings">🗑️ Clear All</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(this.toolbar);
+  this.addToolbarListeners();
+  
+  // Add premium entrance animation
+  requestAnimationFrame(() => {
+    this.toolbar.style.transform = 'translateY(-20px) scale(0.95)';
+    this.toolbar.style.opacity = '0';
+    
+    setTimeout(() => {
+      this.toolbar.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      this.toolbar.style.transform = 'translateY(0) scale(1)';
+      this.toolbar.style.opacity = '1';
+    }, 50);
+  });
+}
+
+// Enhanced toggleMinimize with smoother animations
+toggleMinimize() {
+  this.isMinimized = !this.isMinimized;
+  const minimizeBtn = this.toolbar.querySelector('.graffiti-minimize-btn');
+  const content = this.toolbar.querySelector('.graffiti-toolbar-content');
+  const header = this.toolbar.querySelector('.graffiti-toolbar-header');
+
+  if (this.isMinimized) {
+    // Minimize animation
+    content.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    header.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    content.style.opacity = '0';
+    header.style.opacity = '0';
+    content.style.transform = 'scale(0.8)';
+    header.style.transform = 'scale(0.8)';
+    
+    setTimeout(() => {
+      this.toolbar.classList.add('minimized');
+      minimizeBtn.innerHTML = '✨';
+      minimizeBtn.title = 'Expand Toolbar';
+
+      // Hide content & header
+      if (content) content.style.display = 'none';
+      if (header) header.style.display = 'none';
+
+      // Add elegant logo
+      if (!this.logoEl) {
+        this.logoEl = document.createElement('img');
+        this.logoEl.src = chrome.runtime.getURL('icons/icon48.png');
+        this.logoEl.style.cssText = `
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          opacity: 0;
+          transform: scale(0.5);
+          border-radius: 6px;
+        `;
+        this.logoEl.title = 'Expand GraffitiTab';
+        this.logoEl.addEventListener('click', () => this.toggleMinimize());
+        this.toolbar.appendChild(this.logoEl);
+        
+        // Animate logo appearance
+        setTimeout(() => {
+          this.logoEl.style.opacity = '1';
+          this.logoEl.style.transform = 'scale(1)';
+        }, 100);
+      }
+    }, 300);
+  } else {
+    // Expand animation
+    this.toolbar.classList.remove('minimized');
+    minimizeBtn.innerHTML = '−';
+    minimizeBtn.title = 'Minimize';
+
+    // Remove logo with animation
+    if (this.logoEl) {
+      this.logoEl.style.transition = 'all 0.2s ease';
+      this.logoEl.style.opacity = '0';
+      this.logoEl.style.transform = 'scale(0.5)';
+      
+      setTimeout(() => {
+        if (this.logoEl) {
+          this.logoEl.remove();
+          this.logoEl = null;
+        }
+      }, 200);
+    }
+
+    // Show content & header with animation
+    setTimeout(() => {
+      if (content) {
+        content.style.display = '';
+        content.style.opacity = '0';
+        content.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+          content.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          content.style.opacity = '1';
+          content.style.transform = 'scale(1)';
+        }, 50);
+      }
+      
+      if (header) {
+        header.style.display = '';
+        header.style.opacity = '0';
+        header.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+          header.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          header.style.opacity = '1';
+          header.style.transform = 'scale(1)';
+        }, 100);
+      }
+    }, 150);
   }
+}
+
+// Enhanced updateBrushPreview with premium styling
+updateBrushPreview() {
+  const preview = this.toolbar.querySelector('.graffiti-brush-dot');
+  if (preview) {
+    const size = Math.min(this.brushSize, 24);
+    preview.style.width = size + 'px';
+    preview.style.height = size + 'px';
+    preview.style.backgroundColor = this.brushColor;
+    
+    // Add subtle animation
+    preview.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    preview.style.transform = 'scale(1.1)';
+    
+    setTimeout(() => {
+      preview.style.transform = 'scale(1)';
+    }, 150);
+  }
+}
+
+// Enhanced updateCursor with premium cursor styling
+updateCursor() {
+  if (this.currentTool === 'pen') {
+    this.canvas.style.cursor = 'crosshair';
+  } else if (this.currentTool === 'eraser') {
+    const size = Math.max(8, Math.min(this.brushSize + 4, 32));
+    this.canvas.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${(size - 4) / 2}" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/><circle cx="${size / 2}" cy="${size / 2}" r="${(size - 8) / 2}" fill="rgba(0,0,0,0.1)"/></svg>') ${size / 2} ${size / 2}, auto`;
+  }
+}
 
   removeToolbar() {
     if (this.toolbar) {
@@ -191,47 +370,47 @@ class GraffitiTab {
   }
 
   toggleMinimize() {
-  this.isMinimized = !this.isMinimized;
-  const minimizeBtn = this.toolbar.querySelector('.graffiti-minimize-btn');
-  const content = this.toolbar.querySelector('.graffiti-toolbar-content');
-  const header = this.toolbar.querySelector('.graffiti-toolbar-header');
+    this.isMinimized = !this.isMinimized;
+    const minimizeBtn = this.toolbar.querySelector('.graffiti-minimize-btn');
+    const content = this.toolbar.querySelector('.graffiti-toolbar-content');
+    const header = this.toolbar.querySelector('.graffiti-toolbar-header');
 
-  if (this.isMinimized) {
-    this.toolbar.classList.add('minimized');
-    minimizeBtn.textContent = '+'; 
-    minimizeBtn.title = 'Maximize';
+    if (this.isMinimized) {
+      this.toolbar.classList.add('minimized');
+      minimizeBtn.textContent = '+';
+      minimizeBtn.title = 'Maximize';
 
-    // Hide content & header
-    if (content) content.style.display = 'none';
-    if (header) header.style.display = 'none';
+      // Hide content & header
+      if (content) content.style.display = 'none';
+      if (header) header.style.display = 'none';
 
-    // Add logo
-    if (!this.logoEl) {
-      this.logoEl = document.createElement('img');
-      this.logoEl.src = chrome.runtime.getURL('icons/icon48.png');
-      this.logoEl.style.width = '40px';
-      this.logoEl.style.height = '40px';
-      this.logoEl.style.cursor = 'pointer';
-      this.logoEl.title = 'Open GraffitiTab';
-      this.logoEl.addEventListener('click', () => this.toggleMinimize());
-      this.toolbar.appendChild(this.logoEl);
-    }
-  } else {
-    this.toolbar.classList.remove('minimized');
-    minimizeBtn.textContent = '−'; 
-    minimizeBtn.title = 'Minimize';
+      // Add logo
+      if (!this.logoEl) {
+        this.logoEl = document.createElement('img');
+        this.logoEl.src = chrome.runtime.getURL('icons/icon48.png');
+        this.logoEl.style.width = '40px';
+        this.logoEl.style.height = '40px';
+        this.logoEl.style.cursor = 'pointer';
+        this.logoEl.title = 'Open GraffitiTab';
+        this.logoEl.addEventListener('click', () => this.toggleMinimize());
+        this.toolbar.appendChild(this.logoEl);
+      }
+    } else {
+      this.toolbar.classList.remove('minimized');
+      minimizeBtn.textContent = '−';
+      minimizeBtn.title = 'Minimize';
 
-    // Restore content & header
-    if (content) content.style.display = '';
-    if (header) header.style.display = '';
+      // Restore content & header
+      if (content) content.style.display = '';
+      if (header) header.style.display = '';
 
-    // Remove logo
-    if (this.logoEl) {
-      this.logoEl.remove();
-      this.logoEl = null;
+      // Remove logo
+      if (this.logoEl) {
+        this.logoEl.remove();
+        this.logoEl = null;
+      }
     }
   }
-}
 
 
   startDrag(e) {
@@ -413,17 +592,26 @@ class GraffitiTab {
     }
   }
 
-  saveDrawing() {
+ saveDrawing() {
   const toolbar = this.toolbar;
-  const originalVisibility = toolbar.style.visibility;
   const wasMinimized = this.isMinimized;
-
+  const toolbarParent = toolbar.parentNode;
+  
+  // If minimized, expand first so we can hide it properly
   if (this.isMinimized) this.toggleMinimize();
-  toolbar.style.visibility = 'hidden';
+  
+  // Completely remove toolbar from DOM
+  toolbar.remove();
+  
+  // Force a reflow to ensure the removal is applied
+  document.body.offsetHeight;
 
   setTimeout(() => {
     chrome.runtime.sendMessage({action: 'captureVisibleTab'}, (dataUrl) => {
-      toolbar.style.visibility = originalVisibility;
+      // Re-add toolbar to DOM
+      toolbarParent.appendChild(toolbar);
+      
+      // Restore minimized state if it was minimized before
       if (wasMinimized && !this.isMinimized) this.toggleMinimize();
 
       if (!dataUrl) {
@@ -439,9 +627,13 @@ class GraffitiTab {
         tempCanvas.height = window.innerHeight;
         const ctx = tempCanvas.getContext('2d');
 
+        // Draw the background (webpage screenshot)
         ctx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+        
+        // Draw the graffiti drawings on top
         ctx.drawImage(this.canvas, 0, 0);
 
+        // Download the combined image
         const link = document.createElement('a');
         link.download = `graffiti-${Date.now()}.png`;
         link.href = tempCanvas.toDataURL('image/png');
@@ -450,9 +642,8 @@ class GraffitiTab {
       img.onerror = () => this.fallbackSave();
       img.src = dataUrl;
     });
-  }, 100);
+  }, 150); // Slightly longer timeout to ensure DOM updates
 }
-
 
 
   fallbackSave() {

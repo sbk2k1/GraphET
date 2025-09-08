@@ -5,8 +5,7 @@
   "description": "Draw, annotate, and express yourself on any webpage with a premium dark UI and advanced features.",
   "permissions": [
     "activeTab",
-    "scripting",
-    "storage"
+    "scripting"
   ],
   "action": {
     "default_popup": "popup.html",
