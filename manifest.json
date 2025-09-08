@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "GraffitiTab - Draw on Any Webpage",
+  "name": "GraphET",
   "version": "1.2",
-  "description": "Draw, annotate, and express yourself on any webpage with a premium dark UI and advanced features.",
+  "description": "Draw, annotate, and express yourself on any webpage.",
   "permissions": [
     "activeTab",
     "scripting"
